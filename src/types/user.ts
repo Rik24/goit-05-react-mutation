@@ -4,3 +4,14 @@ export interface User {
   isOnline: boolean;
   id: string;
 }
+
+export interface UserData {
+  name: string;
+  email: string;
+  isOnline: boolean;
+}
+
+export interface UpdateUserStatus {
+  isOnline: boolean;
+  id: string;
+}

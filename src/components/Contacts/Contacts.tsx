@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import getContacts from "../../services/contactsApi";
+import { getContacts } from "../../services/contactsApi";
 import ContactsList from "../ContactsList/ContactsList";
 import ErrorNotification from "../ErrorNotification/ErrorNotification";
 import Loader from "../Loader/Loader";

@@ -1,54 +1,51 @@
-import { ErrorMessage, Field, Form, Formik, type FormikHelpers } from "formik";
-import css from "./AddContactForm.module.css";
-import * as Yup from "yup";
+import { ErrorMessage, Field, Form, Formik, type FormikHelpers } from 'formik';
+import css from './AddContactForm.module.css';
+import * as Yup from 'yup';
 
-const addContactValidationSchema = Yup.object().shape({
-  name: Yup.string().required("This field is required"),
-  number: Yup.string().required("This field is required"),
-  hasWork: Yup.string().oneOf(["true", "false"]),
-  city: Yup.string().required("This field is required"),
-  job: Yup.string().required("This field is required"),
+type Hobbies = 'sport' | 'reading' | 'travelling';
+
+const addContactValidatiomSchema = Yup.object().shape({
+  name: Yup.string().required('This field is required'),
+  number: Yup.string().required('This field is required'),
+  hasWork: Yup.string().oneOf(['true', 'false']),
+  city: Yup.string().required('This field is required'),
+  job: Yup.string().required('This field is required'),
   hobbies: Yup.array().of(
-    Yup.string().oneOf(["sport", "reading", "travelling"]),
+    Yup.string().oneOf(['sport', 'reading', 'travelling'])
   ),
-  email: Yup.string().email().required("This field is required"),
-  sex: Yup.string().oneOf(["male", "female"]),
-  birthDay: Yup.string().required("This field is required"),
+  email: Yup.string().email().required('This field is required'),
+  sex: Yup.string().oneOf(['male', 'female']),
   description: Yup.string(),
 });
-
-type Hobbies = "sport" | "reading" | "travelling";
 
 interface FormValues {
   name: string;
   number: string;
-  hasWork: "true" | "false";
+  hasWork: 'true' | 'false'; //radio
   city: string;
   job: string;
-  hobbies: Hobbies[];
+  hobbies: Hobbies[]; // checkbox
   email: string;
-  sex: string;
-  birthDay: string;
+  sex: 'male' | 'female'; // select
   description: string;
 }
 
 const initialValues: FormValues = {
-  name: "",
-  number: "",
-  hasWork: "false",
-  city: "",
-  job: "",
-  hobbies: [],
-  email: "",
-  sex: "male",
-  birthDay: "",
-  description: "",
+  name: '',
+  number: '',
+  hasWork: 'false',
+  city: '',
+  job: '',
+  hobbies: ['sport'],
+  email: '',
+  sex: 'male',
+  description: '',
 };
 
 export default function AddContactForm() {
   const handleSubmit = (
     values: FormValues,
-    actions: FormikHelpers<FormValues>,
+    actions: FormikHelpers<FormValues>
   ) => {
     console.log(values);
     actions.resetForm();
@@ -57,8 +54,8 @@ export default function AddContactForm() {
   return (
     <Formik
       initialValues={initialValues}
+      validationSchema={addContactValidatiomSchema}
       onSubmit={handleSubmit}
-      validationSchema={addContactValidationSchema}
     >
       <Form className={css.form}>
         <label>
@@ -88,54 +85,50 @@ export default function AddContactForm() {
         </label>
         <fieldset>
           <legend>Hobbies</legend>
-          <label>
+          <label className={css.checboxLabel}>
             <Field type="checkbox" name="hobbies" value="sport" />
             Sport
           </label>
-          <label>
+          <label className={css.checboxLabel}>
             <Field type="checkbox" name="hobbies" value="reading" />
             Reading
           </label>
-          <label>
-            <Field type="checkbox" name="hobbies" value="traveling" />
-            Traveling
+          <label className={css.checboxLabel}>
+            <Field type="checkbox" name="hobbies" value="travelling" />
+            Travelling
           </label>
           <ErrorMessage name="hobbies" component="span" className={css.error} />
         </fieldset>
         <label>
           Sex
-          <select name="sex">
+          <Field as="select" name="sex">
             <option value="male">Male</option>
             <option value="female">Female</option>
-          </select>
+          </Field>
           <ErrorMessage name="sex" component="span" className={css.error} />
         </label>
         <fieldset>
-          <legend>Has Work</legend>
-          <label>
+          <legend>Has work</legend>
+          <label className={css.checboxLabel}>
             <Field type="radio" name="hasWork" value="true" />
             Yes
           </label>
-          <label>
+          <label className={css.checboxLabel}>
             <Field type="radio" name="hasWork" value="false" />
             No
           </label>
           <ErrorMessage name="hasWork" component="span" className={css.error} />
         </fieldset>
         <label>
-          BirthDay
-          <Field type="date" name="birthDay" />
+          Description
+          <Field as="textarea" name="description"></Field>
           <ErrorMessage
-            name="birthDay"
+            name="description"
             component="span"
             className={css.error}
           />
         </label>
-        <label>
-          Description
-          <Field as="textarea" type="date" name="description" />
-        </label>
-        <button type="submit">Send contact</button>
+        <button type="submit">Save contact</button>
       </Form>
     </Formik>
   );

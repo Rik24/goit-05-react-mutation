@@ -42,11 +42,19 @@ export default function Books() {
     setCurrentPage(page);
   };
 
+  const openForm = () => {
+    setIsFormVisible(true);
+  };
+
+  const closeForm = () => {
+    setIsFormVisible(false);
+  };
+
   return (
     <>
       <SearchBooks onSearch={searchBooks} />
       <Pagination
-        totalPages={6}
+        totalPages={7}
         currentPage={currentPage}
         onPageChange={changeCurrentPage}
       />
@@ -61,13 +69,8 @@ export default function Books() {
           <p>{description}</p>
         </Modal>
       )}
-      <Button
-        textContent="Open add form"
-        handleClick={() => setIsFormVisible(true)}
-      />
-      {isFormVisible && (
-        <AddBookForm onSubmit={() => setIsFormVisible(false)} />
-      )}
+      <Button textContent="Open form" handleClick={openForm} />
+      {isFormVisible && <AddBookForm closeForm={closeForm} />}
     </>
   );
 }
